@@ -1,25 +1,26 @@
 package org.policyexpert.codingassessment.product;
 
-import org.policyexpert.codingassessment.utils.ValidationUtils;
-
 import java.math.BigDecimal;
 
+import static org.policyexpert.codingassessment.utils.ValidationUtils.isPositiveOrZero;
+import static org.policyexpert.codingassessment.utils.ValidationUtils.notEmpty;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notNull;
+import static org.policyexpert.codingassessment.utils.ValidationUtils.readBigDecimal;
 
 public class WeightBasedProduct extends Product {
 
     private final BigDecimal pricePerKg;
     private final BigDecimal weightInKg;
 
-    public WeightBasedProduct(String code, String pricePerKg, String weightInKg) {
-        super(code);
-        this. pricePerKg = new BigDecimal(notNull(pricePerKg, "Price per kg"));
-        this. weightInKg = new BigDecimal(notNull(weightInKg, "Weight in kg"));
+    private WeightBasedProduct(final Builder builder) {
+        super(builder.code);
+        this.pricePerKg = builder.pricePerKg;
+        this.weightInKg = builder.weightInKg;
     }
 
     @Override
     public BigDecimal getPrice() {
-        return this.pricePerKg.multiply(weightInKg);
+        return this.weightInKg.multiply(this.pricePerKg);
     }
 
     @Override
@@ -30,5 +31,35 @@ public class WeightBasedProduct extends Product {
         sb.append(", code='").append(code).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    public static class Builder {
+        private String code;
+        private BigDecimal pricePerKg;
+        private BigDecimal weightInKg;
+
+        public Builder code(final String code) {
+            this.code = notEmpty(code, "Product code");
+            return this;
+        }
+
+        public Builder pricePerKg(final String pricePerKg) {
+            this.pricePerKg = isPositiveOrZero(readBigDecimal(pricePerKg), "Product price per kg");
+            return this;
+        }
+
+        public Builder weightInKg(final String weightInKg) {
+            this.weightInKg = isPositiveOrZero(readBigDecimal(weightInKg), "Product weight in kg");
+            return this;
+        }
+
+        public WeightBasedProduct build() {
+            final WeightBasedProduct product = new WeightBasedProduct(this);
+            notNull(product.code, "Product code");
+            notNull(product.pricePerKg, "Product price per kg");
+            notNull(product.weightInKg, "Product weight in kg");
+
+            return product;
+        }
     }
 }

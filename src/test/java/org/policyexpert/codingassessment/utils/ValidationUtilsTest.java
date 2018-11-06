@@ -81,4 +81,24 @@ public class ValidationUtilsTest {
         final BigDecimal bigDecimal = ValidationUtils.readBigDecimal(validNumber);
         Assertions.assertThat(bigDecimal).isEqualByComparingTo(validNumber);
     }
+
+    @Test
+    public void notEmpty_WHEN_StringIsNull_THEN_ShouldThrowIllegalArgumentException() {
+        Assertions.assertThatIllegalArgumentException()
+                .isThrownBy(() -> ValidationUtils.notEmpty(null, "Item"))
+                .withMessage("Item cannot be empty.");
+    }
+
+    @Test
+    public void notEmpty_WHEN_StringIsEmpty_THEN_ShouldThrowIllegalArgumentException() {
+        Assertions.assertThatIllegalArgumentException()
+                .isThrownBy(() -> ValidationUtils.notEmpty("", "Item"))
+                .withMessage("Item cannot be empty.");
+    }
+
+    @Test
+    public void notNull_WHEN_StringIsNotEmpty_THEN_ShouldReturnSameString() {
+        final String result = ValidationUtils.notEmpty("Str", "Item");
+        Assertions.assertThat(result).isEqualTo("Str");
+    }
 }

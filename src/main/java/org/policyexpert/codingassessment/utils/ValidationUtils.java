@@ -23,6 +23,17 @@ public class ValidationUtils {
     }
 
     /**
+     * Checks that the given parameter is an empty String.
+     *
+     * @param strToTest     The string to test.
+     * @param objectName The object name.
+     * @throws IllegalArgumentException When the string is empty.
+     */
+    public static String notEmpty(final String strToTest, final String objectName) {
+        return validate(strToTest, str -> str != null && !str.isEmpty(), objectName, "cannot be empty");
+    }
+
+    /**
      * Checks that the given predicate is valid for the given object.
      *
      * @throws IllegalArgumentException When the predicate is not valid for the object.

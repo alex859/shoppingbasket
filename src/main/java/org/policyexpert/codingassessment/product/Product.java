@@ -3,13 +3,11 @@ package org.policyexpert.codingassessment.product;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import static org.policyexpert.codingassessment.utils.ValidationUtils.notNull;
-
 abstract class Product {
     protected final String code;
 
     protected Product(final String code) {
-        this.code = notNull(code, "Product code");
+        this.code = code;
     }
 
     public abstract BigDecimal getPrice();
