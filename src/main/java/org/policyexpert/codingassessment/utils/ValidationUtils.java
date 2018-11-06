@@ -25,7 +25,7 @@ public class ValidationUtils {
     /**
      * Checks that the given parameter is an empty String.
      *
-     * @param strToTest     The string to test.
+     * @param strToTest  The string to test.
      * @param objectName The object name.
      * @throws IllegalArgumentException When the string is empty.
      */

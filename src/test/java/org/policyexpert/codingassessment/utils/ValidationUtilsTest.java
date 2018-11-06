@@ -1,12 +1,9 @@
 package org.policyexpert.codingassessment.utils;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.BigDecimalAssert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-
-import static org.junit.Assert.*;
 
 public class ValidationUtilsTest {
 

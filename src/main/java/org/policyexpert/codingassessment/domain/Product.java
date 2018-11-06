@@ -7,13 +7,11 @@ import java.math.BigDecimal;
  */
 public interface Product {
     /**
-     *
      * @return Product code.
      */
     String getCode();
 
     /**
-     *
      * @return Product price.
      */
     BigDecimal getPrice();

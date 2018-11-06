@@ -20,6 +20,10 @@ public class WeightBasedProduct implements Product {
         this.weightInKg = builder.weightInKg;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     @Override
     public String getCode() {
         return code;
@@ -28,10 +32,6 @@ public class WeightBasedProduct implements Product {
     @Override
     public BigDecimal getPrice() {
         return this.weightInKg.multiply(this.pricePerKg);
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override

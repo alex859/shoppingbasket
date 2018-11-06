@@ -18,6 +18,10 @@ public class PerItemProduct implements Product {
         this.price = builder.price;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     @Override
     public String getCode() {
         return code;
@@ -26,10 +30,6 @@ public class PerItemProduct implements Product {
     @Override
     public BigDecimal getPrice() {
         return this.price;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override
