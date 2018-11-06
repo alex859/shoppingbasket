@@ -29,11 +29,15 @@ public class ShoppingBasket {
     }
 
     public BigDecimal getSubTotal() {
-        return null;
+        return this.products.stream().map(Product::getPrice).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
+    }
+
+    public BigDecimal getTotalSavings() {
+        return this.savings.stream().map(Saving::getAmount).reduce(BigDecimal::add).orElse(BigDecimal.ZERO);
     }
 
     public BigDecimal getTotal() {
-        return null;
+        return getSubTotal().subtract(getTotalSavings());
     }
 
     public static Builder builder() {
@@ -84,7 +88,11 @@ public class ShoppingBasket {
         }
 
         public ShoppingBasket build() {
-            return new ShoppingBasket(this);
+            final ShoppingBasket shoppingBasket = new ShoppingBasket(this);
+            if (shoppingBasket.products.isEmpty() && !shoppingBasket.savings.isEmpty()) {
+                throw new IllegalStateException("Cannot have savings without products.");
+            }
+            return shoppingBasket;
         }
     }
 

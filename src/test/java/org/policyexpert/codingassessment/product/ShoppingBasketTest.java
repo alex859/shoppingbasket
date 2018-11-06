@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 import static org.mockito.Mockito.when;
 
-public class ShoppingBasketTestTest {
+public class ShoppingBasketTest {
 
     @Test
     public void getSubTotal_WHEN_EmptyBasket_THEN_ShouldReturnZero() {
@@ -93,7 +93,7 @@ public class ShoppingBasketTestTest {
                         ))
                         .build();
 
-        Assertions.assertThat(shoppingBasket.getSubTotal()).isEqualByComparingTo("6.45");
+        Assertions.assertThat(shoppingBasket.getTotal()).isEqualByComparingTo("6.45");
     }
 
     @Test
@@ -106,6 +106,47 @@ public class ShoppingBasketTestTest {
                         ))
                         .build()
         );
+    }
+
+    @Test
+    public void getTotalSavings_WHEN_EmptyBasket_THEN_ShouldReturnZero() {
+        final ShoppingBasket shoppingBasket = ShoppingBasket.builder().build();
+
+        Assertions.assertThat(shoppingBasket.getTotalSavings()).isEqualByComparingTo("0.00");
+    }
+
+    @Test
+    public void getTotalSavings_WHEN_ProductsOnly_THEN_ShouldReturnZero() {
+        final ShoppingBasket shoppingBasket =
+                ShoppingBasket.builder()
+                        .products(
+                                Arrays.asList(
+                                        productPriced("1.25"),
+                                        productPriced("2.5"),
+                                        productPriced("8.2")
+                                )
+                        )
+                        .build();
+
+        Assertions.assertThat(shoppingBasket.getTotalSavings()).isEqualByComparingTo("0.0");
+    }
+
+    @Test
+    public void getTotalSavings_WHEN_ProductsAndSavings_THEN_ShouldReturnSumOfSavings() {
+        final ShoppingBasket shoppingBasket =
+                ShoppingBasket.builder()
+                        .products(Arrays.asList(
+                                productPriced("1.25"),
+                                productPriced("2.5"),
+                                productPriced("8.2")
+                        ))
+                        .savings(Arrays.asList(
+                                savingOf("5"),
+                                savingOf("0.5")
+                        ))
+                        .build();
+
+        Assertions.assertThat(shoppingBasket.getTotalSavings()).isEqualByComparingTo("5.5");
     }
 
     private Product productPriced(final String price) {
