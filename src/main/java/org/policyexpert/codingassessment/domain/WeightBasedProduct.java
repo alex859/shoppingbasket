@@ -1,4 +1,4 @@
-package org.policyexpert.codingassessment.product;
+package org.policyexpert.codingassessment.domain;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -28,6 +28,10 @@ public class WeightBasedProduct implements Product {
     @Override
     public BigDecimal getPrice() {
         return this.weightInKg.multiply(this.pricePerKg);
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     @Override

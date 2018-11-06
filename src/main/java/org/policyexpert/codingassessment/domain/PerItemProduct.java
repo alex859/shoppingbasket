@@ -1,4 +1,4 @@
-package org.policyexpert.codingassessment.product;
+package org.policyexpert.codingassessment.domain;
 
 import java.math.BigDecimal;
 import java.util.Objects;
