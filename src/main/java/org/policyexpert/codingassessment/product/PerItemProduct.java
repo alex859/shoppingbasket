@@ -1,19 +1,26 @@
 package org.policyexpert.codingassessment.product;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import static org.policyexpert.codingassessment.utils.ValidationUtils.isPositiveOrZero;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notEmpty;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notNull;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.readBigDecimal;
 
-public class PerItemProduct  extends Product {
+public class PerItemProduct implements Product {
 
+    private final String code;
     private final BigDecimal price;
 
     private PerItemProduct(final Builder builder) {
-        super(builder.code);
+        this.code = builder.code;
         this.price = builder.price;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
     }
 
     @Override
@@ -28,10 +35,23 @@ public class PerItemProduct  extends Product {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("PerItemProduct{");
-        sb.append("price=").append(price);
-        sb.append(", code='").append(code).append('\'');
+        sb.append("code='").append(code).append('\'');
+        sb.append(", price=").append(price);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        PerItemProduct that = (PerItemProduct) obj;
+        return Objects.equals(code, that.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code);
     }
 
     public static class Builder {

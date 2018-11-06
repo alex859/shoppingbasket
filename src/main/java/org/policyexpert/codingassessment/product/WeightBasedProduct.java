@@ -1,21 +1,28 @@
 package org.policyexpert.codingassessment.product;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import static org.policyexpert.codingassessment.utils.ValidationUtils.isPositiveOrZero;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notEmpty;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notNull;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.readBigDecimal;
 
-public class WeightBasedProduct extends Product {
+public class WeightBasedProduct implements Product {
 
+    private final String code;
     private final BigDecimal pricePerKg;
     private final BigDecimal weightInKg;
 
     private WeightBasedProduct(final Builder builder) {
-        super(builder.code);
+        this.code = builder.code;
         this.pricePerKg = builder.pricePerKg;
         this.weightInKg = builder.weightInKg;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
     }
 
     @Override
@@ -26,11 +33,26 @@ public class WeightBasedProduct extends Product {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("WeightBasedProduct{");
-        sb.append("pricePerKg=").append(pricePerKg);
+        sb.append("code='").append(code).append('\'');
+        sb.append(", pricePerKg=").append(pricePerKg);
         sb.append(", weightInKg=").append(weightInKg);
-        sb.append(", code='").append(code).append('\'');
+        sb.append(", price=").append(getPrice());
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (this == ob) return true;
+        if (ob == null || getClass() != ob.getClass()) return false;
+        WeightBasedProduct product = (WeightBasedProduct) ob;
+        return Objects.equals(code, product.code);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(code);
     }
 
     public static class Builder {
