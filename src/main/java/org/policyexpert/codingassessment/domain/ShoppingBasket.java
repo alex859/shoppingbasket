@@ -1,38 +1,43 @@
 package org.policyexpert.codingassessment.domain;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.math.BigDecimal;
+import java.util.*;
 
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notEmpty;
-import static org.policyexpert.codingassessment.utils.ValidationUtils.notNull;
 
 public class ShoppingBasket {
     private final String id;
-    private final Map<Product, Long> products;
+    private final List<Product> products;
+    private final List<Saving> savings;
 
     private ShoppingBasket(final Builder builder) {
         this.id = builder.id;
         this.products = builder.products;
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    /**
-     * @return A mapping product -> quantity.
-     */
-    public Map<Product, Long> getProducts() {
-        return products;
+        this.savings = builder.savings;
     }
 
     public String getId() {
         return id;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public List<Saving> getSavings() {
+        return savings;
+    }
+
+    public BigDecimal getSubTotal() {
+        return null;
+    }
+
+    public BigDecimal getTotal() {
+        return null;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     @Override
@@ -45,7 +50,6 @@ public class ShoppingBasket {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id);
     }
 
@@ -54,33 +58,33 @@ public class ShoppingBasket {
         final StringBuilder sb = new StringBuilder("ShoppingBasket{");
         sb.append("id='").append(id).append('\'');
         sb.append(", products=").append(products);
+        sb.append(", savings=").append(savings);
         sb.append('}');
         return sb.toString();
     }
 
     public static class Builder {
         private String id = UUID.randomUUID().toString();
-        private Map<Product, Long> products = new HashMap<>();
+        private List<Product> products = new ArrayList<>();
+        private List<Saving> savings = new ArrayList<>();
 
         public Builder id(final String id) {
             this.id = notEmpty(id, "Shopping basket ID");
             return this;
         }
 
-        public Builder products(final Product... products) {
-            this.products = products == null ? new HashMap<>() : createProductMap(products);
+        public Builder products(final List<Product> products) {
+            this.products = products == null ? Collections.emptyList() : Collections.unmodifiableList(products);
             return this;
         }
 
-        private Map<Product, Long> createProductMap(Product[] products) {
-            return Stream.of(products).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        public Builder savings(final List<Saving> savings) {
+            this.savings = savings == null ? Collections.emptyList(): Collections.unmodifiableList(savings);
+            return this;
         }
 
         public ShoppingBasket build() {
-            final ShoppingBasket shoppingBasket = new ShoppingBasket(this);
-            notNull(shoppingBasket.id, "Shopping basket ID");
-            notNull(shoppingBasket.products, "Shopping basket products");
-            return shoppingBasket;
+            return new ShoppingBasket(this);
         }
     }
 
