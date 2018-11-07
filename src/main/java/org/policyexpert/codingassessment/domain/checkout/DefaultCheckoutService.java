@@ -22,6 +22,10 @@ public class DefaultCheckoutService implements CheckoutService {
         this.promotionsSupplier = promotionsSupplier == null ? Collections::emptyList : promotionsSupplier;
     }
 
+    public static DefaultCheckoutService noPromotionsCheckoutService() {
+        return new DefaultCheckoutService(null);
+    }
+
     @Override
     public Receipt generateReceiptFor(final List<Product> products) {
         if (CollectionUtils.isEmpty(products)) {
@@ -38,9 +42,5 @@ public class DefaultCheckoutService implements CheckoutService {
                 .products(products)
                 .savings(savings)
                 .build();
-    }
-
-    public static DefaultCheckoutService noPromotionsCheckoutService() {
-        return new DefaultCheckoutService(null);
     }
 }

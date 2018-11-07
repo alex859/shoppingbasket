@@ -3,14 +3,12 @@ package org.policyexpert.codingassessment.domain.product;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class PerItemProductTest {
 
     @Test
     public void builder_WHEN_NullCode_THEN_ShouldThrowIllegalArgumentException() {
         Assertions.assertThatIllegalArgumentException().isThrownBy(() ->
-            PerItemProduct.builder().price("2.0").build()
+                PerItemProduct.builder().price("2.0").build()
         );
     }
 

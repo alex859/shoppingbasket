@@ -13,7 +13,7 @@ import static org.policyexpert.codingassessment.utils.CollectionUtils.isEmpty;
 /**
  * SimpleSavingsCalculator simply applies all {@link Promotion}s to all {@link Product}s.
  */
-public class SimpleSavingsCalculator implements SavingsCalculator{
+public class SimpleSavingsCalculator implements SavingsCalculator {
 
     @Override
     public List<Saving> calculate(final List<Product> products, final List<Promotion> promotions) {

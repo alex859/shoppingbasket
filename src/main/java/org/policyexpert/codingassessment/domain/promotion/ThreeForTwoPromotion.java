@@ -20,6 +20,17 @@ public class ThreeForTwoPromotion extends Promotion {
         this.product = builder.product;
     }
 
+    private static Saving createSaving(final Product product) {
+        ValidationUtils.notNull(product, "Product");
+        return Saving.builder()
+                .name(String.format(PROMO_PATTERN, product.getCode()))
+                .amount(product.getPrice()).build();
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
     @Override
     public List<Saving> applyTo(final List<Product> products) {
         if (CollectionUtils.isEmpty(products)) {
@@ -38,17 +49,6 @@ public class ThreeForTwoPromotion extends Promotion {
         }
 
         return result;
-    }
-
-    private static Saving createSaving(final Product product) {
-        ValidationUtils.notNull(product, "Product");
-        return Saving.builder()
-                .name(String.format(PROMO_PATTERN, product.getCode()))
-                .amount(product.getPrice()).build();
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     public static class Builder {

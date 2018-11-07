@@ -6,13 +6,10 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.policyexpert.codingassessment.domain.product.Product;
 import org.policyexpert.codingassessment.domain.promotion.Promotion;
-import org.policyexpert.codingassessment.domain.saving.Saving;
-import org.policyexpert.codingassessment.domain.saving.SimpleSavingsCalculator;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;

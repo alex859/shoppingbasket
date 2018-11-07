@@ -22,6 +22,10 @@ public class Receipt {
         this.savings = builder.savings;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public String getId() {
         return id;
     }
@@ -44,10 +48,6 @@ public class Receipt {
 
     public BigDecimal getTotal() {
         return getSubTotal().subtract(getTotalSavings());
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Receipt {
         }
 
         public Builder savings(final List<Saving> savings) {
-            this.savings = savings == null ? Collections.emptyList(): Collections.unmodifiableList(savings);
+            this.savings = savings == null ? Collections.emptyList() : Collections.unmodifiableList(savings);
             return this;
         }
 

@@ -10,7 +10,6 @@ import java.util.List;
  */
 public interface CheckoutService {
     /**
-     *
      * @param products The products at checkout.
      * @return The generated receipt.
      */

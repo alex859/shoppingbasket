@@ -76,7 +76,6 @@ public class DefaultCheckoutServiceTest {
 
         Assertions.assertThat(receipt).isNotNull();
         Assertions.assertThat(receipt.getProducts()).containsExactlyInAnyOrder(p1, p2, p3);
-        Assertions.assertThat(receipt.getSavings()).hasSize(3);
         Assertions.assertThat(receipt.getSavings()).containsExactlyInAnyOrder(saving1, saving2, saving3);
     }
 }

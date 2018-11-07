@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 
 /**
  * {@link Product} to be used in tests when we want to make sure the actual {@link Product#equals(Object)} method is called.
- *
  */
 class MockProduct extends Product {
     private final BigDecimal price;

@@ -2,7 +2,6 @@ package org.policyexpert.codingassessment.domain.saving;
 
 import org.policyexpert.codingassessment.domain.product.Product;
 import org.policyexpert.codingassessment.domain.promotion.Promotion;
-import org.policyexpert.codingassessment.domain.receipt.Receipt;
 
 import java.util.List;
 
@@ -15,8 +14,7 @@ import java.util.List;
 public interface SavingsCalculator {
 
     /**
-     *
-     * @param products The products in the basket.
+     * @param products   The products in the basket.
      * @param promotions The currently available promotions.
      * @return The savings for the given shopping basket.
      */

@@ -29,6 +29,20 @@ public class FixedPricePromotion extends Promotion {
         this.fixedPrice = builder.fixedPrice;
     }
 
+    private static Saving createSaving(final Integer triggeringAmount, final Product product, final BigDecimal fixedPrice) {
+        final BigDecimal savingAmount =
+                product.getPrice()
+                        .multiply(BigDecimal.valueOf(triggeringAmount))
+                        .subtract(fixedPrice);
+        return Saving.builder()
+                .name(String.format(PROMO_PATTERN, product.getCode(), triggeringAmount, fixedPrice))
+                .amount(savingAmount).build();
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
     @Override
     public List<Saving> applyTo(final List<Product> products) {
         if (CollectionUtils.isEmpty(products)) {
@@ -47,20 +61,6 @@ public class FixedPricePromotion extends Promotion {
         }
 
         return result;
-    }
-
-    private static Saving createSaving(final Integer triggeringAmount, final Product product, final BigDecimal fixedPrice) {
-        final BigDecimal savingAmount =
-                product.getPrice()
-                        .multiply(BigDecimal.valueOf(triggeringAmount))
-                        .subtract(fixedPrice);
-        return Saving.builder()
-                .name(String.format(PROMO_PATTERN, product.getCode(), triggeringAmount, fixedPrice))
-                .amount(savingAmount).build();
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     public static class Builder {

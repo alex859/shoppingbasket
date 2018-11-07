@@ -16,16 +16,16 @@ public class Saving {
         this.amount = builder.amount;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public String getName() {
         return name;
     }
 
     public BigDecimal getAmount() {
         return amount;
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 
     @Override
