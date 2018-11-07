@@ -1,30 +1,29 @@
-package org.policyexpert.codingassessment.product;
+package org.policyexpert.codingassessment.domain.receipt;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.policyexpert.codingassessment.domain.Product;
-import org.policyexpert.codingassessment.domain.Saving;
-import org.policyexpert.codingassessment.domain.ShoppingBasket;
+import org.policyexpert.codingassessment.domain.product.Product;
+import org.policyexpert.codingassessment.domain.saving.Saving;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 
 import static org.mockito.Mockito.when;
 
-public class ShoppingBasketTest {
+public class ReceiptTest {
 
     @Test
     public void getSubTotal_WHEN_EmptyBasket_THEN_ShouldReturnZero() {
-        final ShoppingBasket shoppingBasket = ShoppingBasket.builder().build();
+        final Receipt receipt = Receipt.builder().build();
 
-        Assertions.assertThat(shoppingBasket.getSubTotal()).isEqualByComparingTo("0.00");
+        Assertions.assertThat(receipt.getSubTotal()).isEqualByComparingTo("0.00");
     }
 
     @Test
     public void getSubTotal_WHEN_ProductsOnly_THEN_ShouldReturnSumOfProductPrices() {
-        final ShoppingBasket shoppingBasket =
-                ShoppingBasket.builder()
+        final Receipt receipt =
+                Receipt.builder()
                         .products(
                                 Arrays.asList(
                                         productPriced("1.25"),
@@ -34,13 +33,13 @@ public class ShoppingBasketTest {
                         )
                         .build();
 
-        Assertions.assertThat(shoppingBasket.getSubTotal()).isEqualByComparingTo("11.95");
+        Assertions.assertThat(receipt.getSubTotal()).isEqualByComparingTo("11.95");
     }
 
     @Test
     public void getSubTotal_WHEN_ProductsAndSavings_THEN_ShouldReturnSumOfProductPrices() {
-        final ShoppingBasket shoppingBasket =
-                ShoppingBasket.builder()
+        final Receipt receipt =
+                Receipt.builder()
                         .products(Arrays.asList(
                                 productPriced("1.25"),
                                 productPriced("2.5"),
@@ -52,20 +51,20 @@ public class ShoppingBasketTest {
                         ))
                         .build();
 
-        Assertions.assertThat(shoppingBasket.getSubTotal()).isEqualByComparingTo("11.95");
+        Assertions.assertThat(receipt.getSubTotal()).isEqualByComparingTo("11.95");
     }
 
     @Test
     public void getTotal_WHEN_EmptyBasket_THEN_ShouldReturnZero() {
-        final ShoppingBasket shoppingBasket = ShoppingBasket.builder().build();
+        final Receipt receipt = Receipt.builder().build();
 
-        Assertions.assertThat(shoppingBasket.getTotal()).isEqualByComparingTo("0.00");
+        Assertions.assertThat(receipt.getTotal()).isEqualByComparingTo("0.00");
     }
 
     @Test
     public void getTotal_WHEN_ProductsOnly_THEN_ShouldReturnSumOfProductPrices() {
-        final ShoppingBasket shoppingBasket =
-                ShoppingBasket.builder()
+        final Receipt receipt =
+                Receipt.builder()
                         .products(
                                 Arrays.asList(
                                         productPriced("1.25"),
@@ -75,13 +74,13 @@ public class ShoppingBasketTest {
                         )
                         .build();
 
-        Assertions.assertThat(shoppingBasket.getTotal()).isEqualByComparingTo("11.95");
+        Assertions.assertThat(receipt.getTotal()).isEqualByComparingTo("11.95");
     }
 
     @Test
     public void getTotal_WHEN_ProductsAndSavings_THEN_ShouldReturnDifferenceOfProductsAndSavings() {
-        final ShoppingBasket shoppingBasket =
-                ShoppingBasket.builder()
+        final Receipt receipt =
+                Receipt.builder()
                         .products(Arrays.asList(
                                 productPriced("1.25"),
                                 productPriced("2.5"),
@@ -93,13 +92,13 @@ public class ShoppingBasketTest {
                         ))
                         .build();
 
-        Assertions.assertThat(shoppingBasket.getTotal()).isEqualByComparingTo("6.45");
+        Assertions.assertThat(receipt.getTotal()).isEqualByComparingTo("6.45");
     }
 
     @Test
     public void getTotal_WHEN_SavingsAndNoProducts_THEN_ShouldThrowIllegalStateException() {
         Assertions.assertThatIllegalStateException().isThrownBy(
-                () -> ShoppingBasket.builder()
+                () -> Receipt.builder()
                         .savings(Arrays.asList(
                                 savingOf("5"),
                                 savingOf("0.5")
@@ -110,15 +109,15 @@ public class ShoppingBasketTest {
 
     @Test
     public void getTotalSavings_WHEN_EmptyBasket_THEN_ShouldReturnZero() {
-        final ShoppingBasket shoppingBasket = ShoppingBasket.builder().build();
+        final Receipt receipt = Receipt.builder().build();
 
-        Assertions.assertThat(shoppingBasket.getTotalSavings()).isEqualByComparingTo("0.00");
+        Assertions.assertThat(receipt.getTotalSavings()).isEqualByComparingTo("0.00");
     }
 
     @Test
     public void getTotalSavings_WHEN_ProductsOnly_THEN_ShouldReturnZero() {
-        final ShoppingBasket shoppingBasket =
-                ShoppingBasket.builder()
+        final Receipt receipt =
+                Receipt.builder()
                         .products(
                                 Arrays.asList(
                                         productPriced("1.25"),
@@ -128,13 +127,13 @@ public class ShoppingBasketTest {
                         )
                         .build();
 
-        Assertions.assertThat(shoppingBasket.getTotalSavings()).isEqualByComparingTo("0.0");
+        Assertions.assertThat(receipt.getTotalSavings()).isEqualByComparingTo("0.0");
     }
 
     @Test
     public void getTotalSavings_WHEN_ProductsAndSavings_THEN_ShouldReturnSumOfSavings() {
-        final ShoppingBasket shoppingBasket =
-                ShoppingBasket.builder()
+        final Receipt receipt =
+                Receipt.builder()
                         .products(Arrays.asList(
                                 productPriced("1.25"),
                                 productPriced("2.5"),
@@ -146,7 +145,7 @@ public class ShoppingBasketTest {
                         ))
                         .build();
 
-        Assertions.assertThat(shoppingBasket.getTotalSavings()).isEqualByComparingTo("5.5");
+        Assertions.assertThat(receipt.getTotalSavings()).isEqualByComparingTo("5.5");
     }
 
     private Product productPriced(final String price) {

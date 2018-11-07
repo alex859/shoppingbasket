@@ -1,16 +1,22 @@
-package org.policyexpert.codingassessment.domain;
+package org.policyexpert.codingassessment.domain.receipt;
+
+import org.policyexpert.codingassessment.domain.product.Product;
+import org.policyexpert.codingassessment.domain.saving.Saving;
 
 import java.math.BigDecimal;
 import java.util.*;
 
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notEmpty;
 
-public class ShoppingBasket {
+/**
+ * Models a receipt containing products an savings.
+ */
+public class Receipt {
     private final String id;
     private final List<Product> products;
     private final List<Saving> savings;
 
-    private ShoppingBasket(final Builder builder) {
+    private Receipt(final Builder builder) {
         this.id = builder.id;
         this.products = builder.products;
         this.savings = builder.savings;
@@ -48,7 +54,7 @@ public class ShoppingBasket {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final ShoppingBasket that = (ShoppingBasket) o;
+        final Receipt that = (Receipt) o;
         return Objects.equals(id, that.id);
     }
 
@@ -59,7 +65,7 @@ public class ShoppingBasket {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("ShoppingBasket{");
+        final StringBuilder sb = new StringBuilder("Receipt{");
         sb.append("id='").append(id).append('\'');
         sb.append(", products=").append(products);
         sb.append(", savings=").append(savings);
@@ -87,12 +93,12 @@ public class ShoppingBasket {
             return this;
         }
 
-        public ShoppingBasket build() {
-            final ShoppingBasket shoppingBasket = new ShoppingBasket(this);
-            if (shoppingBasket.products.isEmpty() && !shoppingBasket.savings.isEmpty()) {
+        public Receipt build() {
+            final Receipt receipt = new Receipt(this);
+            if (receipt.products.isEmpty() && !receipt.savings.isEmpty()) {
                 throw new IllegalStateException("Cannot have savings without products.");
             }
-            return shoppingBasket;
+            return receipt;
         }
     }
 
