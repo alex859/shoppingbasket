@@ -1,6 +1,7 @@
 package org.policyexpert.codingassessment.domain.product;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import static org.policyexpert.codingassessment.utils.ValidationUtils.isPositiveOrZero;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notEmpty;
