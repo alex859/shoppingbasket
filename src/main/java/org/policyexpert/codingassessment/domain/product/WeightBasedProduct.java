@@ -1,32 +1,25 @@
 package org.policyexpert.codingassessment.domain.product;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 import static org.policyexpert.codingassessment.utils.ValidationUtils.isPositiveOrZero;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notEmpty;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notNull;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.readBigDecimal;
 
-public class WeightBasedProduct implements Product {
+public class WeightBasedProduct extends Product {
 
-    private final String code;
     private final BigDecimal pricePerKg;
     private final BigDecimal weightInKg;
 
     private WeightBasedProduct(final Builder builder) {
-        this.code = builder.code;
+        super(builder.code);
         this.pricePerKg = builder.pricePerKg;
         this.weightInKg = builder.weightInKg;
     }
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    @Override
-    public String getCode() {
-        return code;
     }
 
     @Override
@@ -37,26 +30,12 @@ public class WeightBasedProduct implements Product {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("WeightBasedProduct{");
-        sb.append("code='").append(code).append('\'');
+        sb.append("code='").append(getCode()).append('\'');
         sb.append(", pricePerKg=").append(pricePerKg);
         sb.append(", weightInKg=").append(weightInKg);
         sb.append(", price=").append(getPrice());
         sb.append('}');
         return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object ob) {
-        if (this == ob) return true;
-        if (ob == null || getClass() != ob.getClass()) return false;
-        WeightBasedProduct product = (WeightBasedProduct) ob;
-        return Objects.equals(code, product.code);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(code);
     }
 
     public static class Builder {
@@ -81,7 +60,7 @@ public class WeightBasedProduct implements Product {
 
         public WeightBasedProduct build() {
             final WeightBasedProduct product = new WeightBasedProduct(this);
-            notNull(product.code, "Product code");
+            notNull(product.getCode(), "Product code");
             notNull(product.pricePerKg, "Product price per kg");
             notNull(product.weightInKg, "Product weight in kg");
 
