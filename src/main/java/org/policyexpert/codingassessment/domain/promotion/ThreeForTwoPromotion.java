@@ -15,14 +15,9 @@ import java.util.List;
 public class ThreeForTwoPromotion extends Promotion {
     private static final String PROMO_PATTERN = "%s 3 for 2";
     private final Product product;
-    private final Saving saving;
 
-    /**
-     * @param product The product subject to this promotion.
-     */
-    public ThreeForTwoPromotion(final Product product) {
-        this.product = ValidationUtils.notNull(product, "Product");
-        this.saving = createSaving(product);
+    private ThreeForTwoPromotion(final Builder builder) {
+        this.product = builder.product;
     }
 
     @Override
@@ -37,16 +32,38 @@ public class ThreeForTwoPromotion extends Promotion {
 
         final long promotionsTriggering = matchingProducts / 3;
         final List<Saving> result = new LinkedList<>();
+        final Saving saving = createSaving(this.product);
         for (int i = 0; i < promotionsTriggering; i++) {
-            result.add(this.saving);
+            result.add(saving);
         }
 
         return result;
     }
 
-    private Saving createSaving(final Product product) {
+    private static Saving createSaving(final Product product) {
+        ValidationUtils.notNull(product, "Product");
         return Saving.builder()
                 .name(String.format(PROMO_PATTERN, product.getCode()))
                 .amount(product.getPrice()).build();
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Product product;
+
+        public Builder product(final Product product) {
+            this.product = ValidationUtils.notNull(product, "Product");
+            return this;
+        }
+
+        public ThreeForTwoPromotion build() {
+            final ThreeForTwoPromotion threeForTwoPromotion = new ThreeForTwoPromotion(this);
+            ValidationUtils.notNull(threeForTwoPromotion.product, "Product");
+
+            return threeForTwoPromotion;
+        }
     }
 }

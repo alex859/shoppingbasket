@@ -12,20 +12,21 @@ import java.util.List;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.isPositive;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.isPositiveOrZero;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notNull;
+import static org.policyexpert.codingassessment.utils.ValidationUtils.readBigDecimal;
 
 /**
  * FixedPricePromotion lets you pay a fixed amount when you buy N same products.
  */
 public class FixedPricePromotion extends Promotion {
     private static final String PROMO_PATTERN = "%s %d for £%.2f";
-    private final int triggeringAmount;
+    private final Integer triggeringAmount;
     private final Product product;
-    private final Saving saving;
+    private final BigDecimal fixedPrice;
 
-    public FixedPricePromotion(final Integer triggeringAmount, final Product product, final BigDecimal fixedPrice) {
-        this.triggeringAmount = isPositive(triggeringAmount, "Triggering amount");
-        this.product = notNull(product, "Product");
-        this.saving = createSaving(triggeringAmount, product, isPositiveOrZero(fixedPrice, "Fixed price"));
+    private FixedPricePromotion(final Builder builder) {
+        this.triggeringAmount = builder.triggeringAmount;
+        this.product = builder.product;
+        this.fixedPrice = builder.fixedPrice;
     }
 
     @Override
@@ -40,14 +41,15 @@ public class FixedPricePromotion extends Promotion {
 
         final long promotionsTriggering = matchingProducts / triggeringAmount;
         final List<Saving> result = new LinkedList<>();
+        final Saving saving = createSaving(this.triggeringAmount, this.product, this.fixedPrice);
         for (int i = 0; i < promotionsTriggering; i++) {
-            result.add(this.saving);
+            result.add(saving);
         }
 
         return result;
     }
 
-    private Saving createSaving(final int triggeringAmount, final Product product, BigDecimal fixedPrice) {
+    private static Saving createSaving(final Integer triggeringAmount, final Product product, final BigDecimal fixedPrice) {
         final BigDecimal savingAmount =
                 product.getPrice()
                         .multiply(BigDecimal.valueOf(triggeringAmount))
@@ -55,5 +57,41 @@ public class FixedPricePromotion extends Promotion {
         return Saving.builder()
                 .name(String.format(PROMO_PATTERN, product.getCode(), triggeringAmount, fixedPrice))
                 .amount(savingAmount).build();
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Integer triggeringAmount;
+        private Product product;
+        private BigDecimal fixedPrice;
+
+        public Builder triggeringAmount(final Integer triggeringAmount) {
+            this.triggeringAmount = triggeringAmount;
+            return this;
+        }
+
+        public Builder product(final Product product) {
+            this.product = product;
+            return this;
+        }
+
+        public Builder fixedPrice(final String fixedPrice) {
+            this.fixedPrice = readBigDecimal(fixedPrice);
+            return this;
+        }
+
+        public FixedPricePromotion build() {
+            final FixedPricePromotion fixedPricePromotion = new FixedPricePromotion(this);
+            notNull(fixedPricePromotion.product, "Product");
+            isPositiveOrZero(fixedPricePromotion.fixedPrice, "Fixed price");
+            isPositive(fixedPricePromotion.triggeringAmount, "Triggering amount");
+
+            return fixedPricePromotion;
+        }
+
+
     }
 }

@@ -14,8 +14,13 @@ import static org.policyexpert.codingassessment.domain.promotion.MockProduct.moc
 public class ThreeForTwoPromotionTest {
 
     @Test
+    public void builder_WHEN_NullProduct_THEN_ShouldThrowIllegalArgumentException() {
+        Assertions.assertThatIllegalArgumentException().isThrownBy(() -> ThreeForTwoPromotion.builder().build());
+    }
+
+    @Test
     public void applyTo_WHEN_NullProducts_THEN_NoSavings() {
-        final ThreeForTwoPromotion promotion = new ThreeForTwoPromotion(mockProduct("P1", "2.25"));
+        final ThreeForTwoPromotion promotion = ThreeForTwoPromotion.builder().product(mockProduct("P1", "2.25")).build();
 
         final List<Saving> saving = promotion.applyTo(null);
         Assertions.assertThat(saving).isEmpty();
@@ -23,7 +28,7 @@ public class ThreeForTwoPromotionTest {
 
     @Test
     public void applyTo_WHEN_NoProducts_THEN_NoSavings() {
-        final ThreeForTwoPromotion promotion = new ThreeForTwoPromotion(mockProduct("P1", "2.25"));
+        final ThreeForTwoPromotion promotion = ThreeForTwoPromotion.builder().product(mockProduct("P1", "2.25")).build();
 
         final List<Saving> saving = promotion.applyTo(Collections.emptyList());
         Assertions.assertThat(saving).isEmpty();
@@ -32,7 +37,7 @@ public class ThreeForTwoPromotionTest {
     @Test
     public void applyTo_WHEN_NoMatchingProducts_THEN_NoSavings() {
         final Product p2 = mockProduct("P2", "2.5");
-        final ThreeForTwoPromotion promotion = new ThreeForTwoPromotion(mockProduct("P1", "2.25"));
+        final ThreeForTwoPromotion promotion = ThreeForTwoPromotion.builder().product(mockProduct("P1", "2.25")).build();
 
         final List<Saving> saving = promotion.applyTo(Collections.singletonList(p2));
         Assertions.assertThat(saving).isEmpty();
@@ -42,7 +47,7 @@ public class ThreeForTwoPromotionTest {
     public void applyTo_WHEN_NotEnoughMatchingProducts_THEN_NoSavings() {
         final Product p1 = mockProduct("P1", "2.25");
         final Product p2 = mockProduct("P2", "2.5");
-        final ThreeForTwoPromotion promotion = new ThreeForTwoPromotion(mockProduct("P1", "2.25"));
+        final ThreeForTwoPromotion promotion = ThreeForTwoPromotion.builder().product(mockProduct("P1", "2.25")).build();
 
         final List<Saving> saving = promotion.applyTo(Arrays.asList(p1, p2, p2, p2, p1));
         Assertions.assertThat(saving).isEmpty();
@@ -52,7 +57,7 @@ public class ThreeForTwoPromotionTest {
     public void applyTo_WHEN_EnoughMatchingProducts_THEN_OneSaving() {
         final Product p1 = mockProduct("P1", "2.25");
         final Product p2 = mockProduct("P2", "2.5");
-        final ThreeForTwoPromotion promotion = new ThreeForTwoPromotion(mockProduct("P1", "2.25"));
+        final ThreeForTwoPromotion promotion = ThreeForTwoPromotion.builder().product(mockProduct("P1", "2.25")).build();
 
         final List<Saving> saving = promotion.applyTo(Arrays.asList(p1, p2, p1, p1));
         Assertions.assertThat(saving).hasSize(1);
@@ -64,7 +69,7 @@ public class ThreeForTwoPromotionTest {
     public void applyTo_WHEN_MoreThanThreeMatchingButNotEnoughForSecondPromotionProducts_THEN_OneSaving() {
         final Product p1 = mockProduct("P1", "2.25");
         final Product p2 = mockProduct("P2", "2.5");
-        final ThreeForTwoPromotion promotion = new ThreeForTwoPromotion(mockProduct("P1", "2.25"));
+        final ThreeForTwoPromotion promotion = ThreeForTwoPromotion.builder().product(mockProduct("P1", "2.25")).build();
 
         final List<Saving> saving = promotion.applyTo(Arrays.asList(p1, p2, p1, p1, p1));
         Assertions.assertThat(saving).hasSize(1);
@@ -76,7 +81,7 @@ public class ThreeForTwoPromotionTest {
     public void applyTo_WHEN_SixMatching_THEN_TwoSavings() {
         final Product p1 = mockProduct("P1", "2.25");
         final Product p2 = mockProduct("P2", "2.5");
-        final ThreeForTwoPromotion promotion = new ThreeForTwoPromotion(mockProduct("P1", "2.25"));
+        final ThreeForTwoPromotion promotion = ThreeForTwoPromotion.builder().product(mockProduct("P1", "2.25")).build();
 
         final List<Saving> saving = promotion.applyTo(Arrays.asList(p1, p2, p1, p1, p1, p2, p1, p1));
         Assertions.assertThat(saving).hasSize(2);
