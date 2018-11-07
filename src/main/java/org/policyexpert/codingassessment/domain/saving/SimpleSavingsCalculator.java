@@ -6,8 +6,9 @@ import org.policyexpert.codingassessment.domain.promotion.Promotion;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.policyexpert.codingassessment.utils.CollectionUtils.isEmpty;
 
 /**
  * SimpleSavingsCalculator simply applies all {@link Promotion}s to all {@link Product}s.
@@ -24,10 +25,5 @@ public class SimpleSavingsCalculator implements SavingsCalculator{
                 .map(promotion -> promotion.applyTo(products))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
-    }
-
-    // Lazy to include CollectionUtils
-    private <T> boolean isEmpty(final List<T> list) {
-        return list == null || list.isEmpty();
     }
 }

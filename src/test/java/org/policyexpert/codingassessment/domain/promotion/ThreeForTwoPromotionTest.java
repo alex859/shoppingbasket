@@ -48,27 +48,41 @@ public class ThreeForTwoPromotionTest {
     }
 
     @Test
-    public void applyTo_WHEN_EnoughMatchingProducts_THEN_NoSavings() {
+    public void applyTo_WHEN_EnoughMatchingProducts_THEN_OneSaving() {
         final Product p1 = MockProduct.mockProduct("P1", "2.25");
         final Product p2 = MockProduct.mockProduct("P2", "2.5");
         final ThreeForTwoPromotion promotion = new ThreeForTwoPromotion(MockProduct.mockProduct("P1", "2.25"));
 
         final List<Saving> saving = promotion.applyTo(Arrays.asList(p1, p2, p1, p1));
-        Assertions.assertThat(saving).isNotEmpty();
+        Assertions.assertThat(saving).hasSize(1);
         Assertions.assertThat(saving.get(0).getAmount()).isEqualByComparingTo("2.25");
         Assertions.assertThat(saving.get(0).getName()).isEqualTo("P1 3 for 2");
     }
 
     @Test
-    public void applyTo_WHEN_MoreThanThreeMatchingButNotEnoughForSecondPromotionProducts_THEN_NoSavings() {
+    public void applyTo_WHEN_MoreThanThreeMatchingButNotEnoughForSecondPromotionProducts_THEN_OneSaving() {
         final Product p1 = MockProduct.mockProduct("P1", "2.25");
         final Product p2 = MockProduct.mockProduct("P2", "2.5");
         final ThreeForTwoPromotion promotion = new ThreeForTwoPromotion(MockProduct.mockProduct("P1", "2.25"));
 
         final List<Saving> saving = promotion.applyTo(Arrays.asList(p1, p2, p1, p1, p1));
-        Assertions.assertThat(saving).isNotEmpty();
+        Assertions.assertThat(saving).hasSize(1);
         Assertions.assertThat(saving.get(0).getAmount()).isEqualByComparingTo("2.25");
         Assertions.assertThat(saving.get(0).getName()).isEqualTo("P1 3 for 2");
+    }
+
+    @Test
+    public void applyTo_WHEN_SixMatching_THEN_TwoSavings() {
+        final Product p1 = MockProduct.mockProduct("P1", "2.25");
+        final Product p2 = MockProduct.mockProduct("P2", "2.5");
+        final ThreeForTwoPromotion promotion = new ThreeForTwoPromotion(MockProduct.mockProduct("P1", "2.25"));
+
+        final List<Saving> saving = promotion.applyTo(Arrays.asList(p1, p2, p1, p1, p1, p2, p1, p1));
+        Assertions.assertThat(saving).hasSize(2);
+        Assertions.assertThat(saving.get(0).getAmount()).isEqualByComparingTo("2.25");
+        Assertions.assertThat(saving.get(0).getName()).isEqualTo("P1 3 for 2");
+        Assertions.assertThat(saving.get(1).getAmount()).isEqualByComparingTo("2.25");
+        Assertions.assertThat(saving.get(1).getName()).isEqualTo("P1 3 for 2");
     }
 
     private static class MockProduct extends Product {
