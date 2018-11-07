@@ -36,8 +36,11 @@ public abstract class Promotion {
     }
 
     /**
+     * Works out how much a user saves thank to this promotion. If the promotion triggers more than once, more {@link Saving}s
+     * are returned.
+     *
      * @param products The products to apply the promotion to.
-     * @return How much the customer saves thanks to this promotion. If nothing is saven then returns {@link Optional#empty()}.
+     * @return How much the customer saves thanks to this promotion. If the promotion does not trigger, an empty {@link List} i returned.
      */
     public abstract List<Saving> applyTo(List<Product> products);
 
