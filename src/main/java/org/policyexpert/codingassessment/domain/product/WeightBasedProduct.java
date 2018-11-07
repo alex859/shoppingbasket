@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import static org.policyexpert.codingassessment.utils.ValidationUtils.isPositiveOrZero;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.notEmpty;
-import static org.policyexpert.codingassessment.utils.ValidationUtils.notNull;
 import static org.policyexpert.codingassessment.utils.ValidationUtils.readBigDecimal;
 
 public class WeightBasedProduct extends Product {
@@ -44,25 +43,25 @@ public class WeightBasedProduct extends Product {
         private BigDecimal weightInKg;
 
         public Builder code(final String code) {
-            this.code = notEmpty(code, "Product code");
+            this.code = code;
             return this;
         }
 
         public Builder pricePerKg(final String pricePerKg) {
-            this.pricePerKg = isPositiveOrZero(readBigDecimal(pricePerKg), "Product price per kg");
+            this.pricePerKg = readBigDecimal(pricePerKg);
             return this;
         }
 
         public Builder weightInKg(final String weightInKg) {
-            this.weightInKg = isPositiveOrZero(readBigDecimal(weightInKg), "Product weight in kg");
+            this.weightInKg = readBigDecimal(weightInKg);
             return this;
         }
 
         public WeightBasedProduct build() {
             final WeightBasedProduct product = new WeightBasedProduct(this);
-            notNull(product.getCode(), "Product code");
-            notNull(product.pricePerKg, "Product price per kg");
-            notNull(product.weightInKg, "Product weight in kg");
+            notEmpty(product.getCode(), "Product code");
+            isPositiveOrZero(product.pricePerKg, "Product price per kg");
+            isPositiveOrZero(product.weightInKg, "Weight in kg");
 
             return product;
         }

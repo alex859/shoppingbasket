@@ -79,7 +79,7 @@ public class Receipt {
         private List<Saving> savings = new ArrayList<>();
 
         public Builder id(final String id) {
-            this.id = notEmpty(id, "Shopping basket ID");
+            this.id = id;
             return this;
         }
 
@@ -95,6 +95,7 @@ public class Receipt {
 
         public Receipt build() {
             final Receipt receipt = new Receipt(this);
+            notEmpty(receipt.id, "Shopping basket ID");
             if (receipt.products.isEmpty() && !receipt.savings.isEmpty()) {
                 throw new IllegalStateException("Cannot have savings without products.");
             }
