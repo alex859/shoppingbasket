@@ -5,7 +5,6 @@ import org.policyexpert.codingassessment.domain.saving.Saving;
 import org.policyexpert.codingassessment.utils.CollectionUtils;
 import org.policyexpert.codingassessment.utils.ValidationUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  * When you buy three items of the same type, you only pay 2.
  */
 public class ThreeForTwoPromotion extends Promotion {
-    private static final String PROMO_SUFFIX = "3 for 2";
+    private static final String PROMO_PATTERN = "%s 3 for 2";
     private final Product product;
     private final Saving saving;
 
@@ -47,7 +46,7 @@ public class ThreeForTwoPromotion extends Promotion {
 
     private Saving createSaving(final Product product) {
         return Saving.builder()
-                .name(String.format("%s %s", product.getCode(), PROMO_SUFFIX))
+                .name(String.format(PROMO_PATTERN, product.getCode()))
                 .amount(product.getPrice()).build();
     }
 }

@@ -53,6 +53,10 @@ public class ValidationUtils {
         return validate(number, num -> Objects.nonNull(num) && num.compareTo(BigDecimal.ZERO) >= 0, objectName, "must be positive or zero");
     }
 
+    public static Integer isPositive(final Integer number, final String objectName) {
+        return validate(number, num -> Objects.nonNull(num) && num > 0, objectName, "must be positive");
+    }
+
     public static BigDecimal readBigDecimal(final String str) {
         try {
             return new BigDecimal(str);

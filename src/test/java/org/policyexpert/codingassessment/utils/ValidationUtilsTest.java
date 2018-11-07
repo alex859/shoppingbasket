@@ -58,6 +58,28 @@ public class ValidationUtilsTest {
     }
 
     @Test
+    public void isPositive_WHEN_ZeroInteger_THEN_ShouldThrowIllegalArgumentException() {
+        Assertions.assertThatIllegalArgumentException()
+                .isThrownBy(() -> ValidationUtils.isPositive(0, "Number"))
+                .withMessage("Number must be positive.");
+    }
+
+    @Test
+    public void isPositive_WHEN_NegativeInteger_THEN_ShouldThrowIllegalArgumentException() {
+        final Integer negativeNumber = -5;
+        Assertions.assertThatIllegalArgumentException()
+                .isThrownBy(() -> ValidationUtils.isPositive(negativeNumber, "Number"))
+                .withMessage("Number must be positive.");
+    }
+
+    @Test
+    public void isPositive_WHEN_PositiveInteger_THEN_ShouldReturnSameNumber() {
+        final Integer positiveNumber = 25;
+        final Integer result = ValidationUtils.isPositive(positiveNumber, "Number");
+        Assertions.assertThat(result).isSameAs(positiveNumber);
+    }
+
+    @Test
     public void isPositiveOrZero_WHEN_ZeroNumber_THEN_ShouldReturnSameNumber() {
         final BigDecimal zero = new BigDecimal("0.0");
         final BigDecimal result = ValidationUtils.isPositiveOrZero(zero, "Number");
