@@ -14,10 +14,16 @@ import java.util.UUID;
 public abstract class Promotion {
     private final String id;
 
+    /**
+     * When no identifier is provided, a random UUID is used to identify the promotion.
+     */
     protected Promotion() {
         this.id = UUID.randomUUID().toString();
     }
 
+    /**
+     * @param id The promotion identifier.
+     */
     protected Promotion(String id) {
         this.id = id;
     }
@@ -33,7 +39,7 @@ public abstract class Promotion {
      * @param products The products to apply the promotion to.
      * @return How much the customer saves thanks to this promotion. If nothing is saven then returns {@link Optional#empty()}.
      */
-    abstract Optional<Saving> applyTo(List<Product> products);
+    public abstract List<Saving> applyTo(List<Product> products);
 
     @Override
     public boolean equals(Object o) {

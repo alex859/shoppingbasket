@@ -3,6 +3,7 @@ package org.policyexpert.codingassessment.domain.saving;
 import org.policyexpert.codingassessment.domain.product.Product;
 import org.policyexpert.codingassessment.domain.promotion.Promotion;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ public class SimpleSavingsCalculator implements SavingsCalculator{
 
         return promotions.stream()
                 .map(promotion -> promotion.applyTo(products))
-                .filter(Optional::isPresent).map(Optional::get)
+                .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 
