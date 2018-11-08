@@ -1,4 +1,4 @@
-### Policy Expert Code Assessment
+### Shopping Basket
 
 Model a shopping basket checkout with promotions applied.
 
